@@ -42,7 +42,6 @@
 - (instancetype)init
 {
     self = [super init];
-    NSLog(@"Initierar alla värden");
     if (self) {
         [self initValues];
     }
@@ -51,39 +50,24 @@
 
 
 -(NSArray*)questionTime{
-        NSLog(@"inne i questiontime, nu skall en siffra genereras");
-        NSLog(self.questionsAvailable.description);
     self.guessedThisRound = NO;
     int randomInt = arc4random() % self.questionsAvailable.count;
-        NSLog(@"%d", randomInt);
-    NSLog(@"Detta är vad som genereras av self.questionsAvailable[]: %@",self.questionsAvailable[randomInt]);
     if (self.questionsAvailable[randomInt] == self.yesBool) {
-            NSLog(@"Inne i YES, alltsså var frågan på platsen inte tagen redan");
         [self.questionsAvailable replaceObjectAtIndex:randomInt withObject:self.noBool];
-            NSLog(self.questionsAvailable.description);
-                  NSLog(@"Detta är vad som finns på platsen nu av self.questionsAvailable[]: %@",self.questionsAvailable[randomInt]);
         return [self correspondingQuestion:randomInt];
     } else {
-        NSLog(@"inne i else istället, måste varit upptagen då.");
         return [self questionTime];
     }
 }
 
 -(NSArray*)checkAnswer:(NSString*)guess{
-    NSLog(@"Inne i checkAnswer");
-    
     if ([guess isEqualToString:self.currentAnswer]) {
-        NSLog(@"Inne i gissningen var rätt");
         if (!self.guessedThisRound) {
             self.score ++;
         }
         [self.endOfRound replaceObjectAtIndex:0 withObject:self.correctAnswer];
-        NSLog(@"plussar på score");
-        NSLog(@"Score är just nu: %d", self.score);
     } else {
-        NSLog(@"inne i fel svar");
         [self.endOfRound replaceObjectAtIndex:0 withObject:self.wrongAnswer];
-        NSLog(@"Score är just nu: %d", self.score);
     }
     [self.endOfRound replaceObjectAtIndex:1 withObject:[self howManyRounds]];
     self.guessedThisRound = YES;
@@ -91,32 +75,18 @@
 }
 
 -(void)nextRound {
-    NSLog(@"Inne i nextRound");
-    NSLog(@"Ökar self.round");
     self.round ++;
-    NSLog(@"Rundan är nu: %d", self.round);
     if (self.round == 6) {
-        NSLog(@"inne i rundan == 6...");
-        NSLog(@"skickar till resetQuestionsAvailable..");
         [self resetQuestionsAvailable];
         self.round = 1;
         self.score = 0;
-        NSLog(@"sätter runda till 1 och score till 0...");
-        NSLog(@"Score är just nu: %d", self.score);
-        NSLog(@"Round är just nu: %d", self.round);
     }
 }
 
 -(NSString*)howManyRounds{
-    NSLog(@"Inne i how many rounds");
-    NSLog(@"rundan är just nu: %d",self.round);
     if (self.round < 5) {
-        NSLog(@"inne i runder mindre än 5");
-        NSLog(@"returnerar next question");
         return self.nextQuestion;
     } else {
-        NSLog(@"inne i runda mer än 5");
-        NSLog(@"returnerar playAgain");
         self.playAgain = [NSString stringWithFormat:@"(%d poäng) - Spela igen?",self.score];
         return self.playAgain;
     }
@@ -124,14 +94,11 @@
 
 -(void)resetQuestionsAvailable {
     for (int i = 0; i < self.questionsAvailable.count; i++) {
-        NSLog(@"inne i resetQuestionsavailable for loop runda: :d",i);
         [self.questionsAvailable replaceObjectAtIndex:i withObject:self.yesBool];
     }
-    NSLog(self.questionsAvailable.description);
 }
 
 -(void)initValues{
-    NSLog(@"Inne i själva metoden som initierar alla värden");
     self.q0 = @[@"I vilken stad bor det flest pirater?", @"Arrrrrrboga", @"Göteborg", @"Piratviken", @"Kroksdal", @"Arrrrrrboga"];
     self.q1 = @[@"Hur många människor bor det i Tysklad?", @"100 000", @"Gööööörmäny", @"Väldigt många", @"45 976 809", @"Gööööörmäny"];
     self.q2 = @[@"Hur många göteborgare bor det i Kanada?", @"25 000", @"Tretusen", @"Åttava", @"Inga alls", @"Åttava"];
@@ -153,11 +120,9 @@
     self.questionsAvailable = [@[self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool, self.yesBool] mutableCopy];
     //placing temps for now...
     self.endOfRound = [@[self.correctAnswer, self.nextQuestion] mutableCopy];
-    NSLog(@"Nu är verkligen allt färdiginitierat");
 }
 
 -(NSArray*)correspondingQuestion:(int)number{
-    NSLog(@"Inne i correspndingQuestion");
     if (number == 0) {
         self.currentAnswer = self.q0[5];
         return self.q0;

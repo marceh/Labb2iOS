@@ -24,50 +24,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"Appen startas");
     self.model = [[Model alloc] init];
-    NSLog(@"Klarar att initiera Model!");
     [self updateTexts];
 }
 
 - (IBAction)button1Action:(id)sender {
-    NSLog(@"Nu klickade jag på knapp 1 där sender currentTitle = ");
-    NSLog([sender currentTitle]);
     [self updateAnswer:[sender currentTitle]];
 }
 
 - (IBAction)button2Action:(id)sender {
-    NSLog(@"Nu klickade jag på knapp 2 där sender currentTitle = ");
-    NSLog([sender currentTitle]);
     [self updateAnswer:[sender currentTitle]];
 }
 
 - (IBAction)button3Action:(id)sender {
-    NSLog(@"Nu klickade jag på knapp 3 där sender currentTitle = ");
-    NSLog([sender currentTitle]);
     [self updateAnswer:[sender currentTitle]];
 }
 
 - (IBAction)button4Action:(id)sender {
-    NSLog(@"Nu klickade jag på knapp 4 där sender currentTitle = ");
-    NSLog([sender currentTitle]);
     [self updateAnswer:[sender currentTitle]];
 }
 
 - (IBAction)button5Action:(id)sender {
-    NSLog(@"Nu klickade jag på knapp 5...");
-    NSLog(@"Skickar till nextRound");
     [self.model nextRound];
-    NSLog(@"Updaterar text");
     [self updateTexts];
     
 }
 
 - (void)updateTexts{
-        NSLog(@"Hoppade vidare till updateTexts");
     NSArray *tempArray = [self.model questionTime];
-        NSLog(@"tempArrayen har hämtats ifrån questionTime den är: ");
-            NSLog(tempArray.description);
     self.label1.text = tempArray[0];
     [self.button1 setTitle:tempArray[1] forState:(UIControlStateNormal)];
     [self.button2 setTitle:tempArray[2] forState:(UIControlStateNormal)];
